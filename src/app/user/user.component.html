@@ -1,0 +1,108 @@
+<ng-template #confirmacionmodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Eliminar usuario</h4>
+        <button type="button" class="btn-close" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <p><strong>Esta seguro que desea eliminar a <span
+                    class="text-primary">"{{selectedUser.username}}"</span>?</strong></p>
+        <p>Toda informacion asosiada a este usuario sera permanenteme eliminada.
+            <span class="text-danger">Esta operacion no se puede deshacer una vez realizada.</span>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('confirmar')">Ok</button>
+    </div>
+</ng-template>
+
+<ng-template #editmodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Editar usuario <span class="text-danger">{{selectedUser.username}}</span></h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="userForm" class="was-validated">
+            <div class="form-group">
+                <label for="uname">Username:</label>
+                <input type="text" class="form-control" id="uname" placeholder="Ingrese nuevo nombre de usuario"
+                    name="uname" formControlName="userName" required minlength="2" maxlenght="64" (keydown.space)="$event.preventDefault();">
+                <div class="valid-feedback">Nombre de usuario valido</div>
+                <div class="invalid-feedback">Por favor llene esta campo.</div>
+            </div>
+            <div class="form-group">
+                <label for="useremail">Correo electrónico:</label>
+                <input type="email" class="form-control" id="usermail" placeholder="Ingrese nuevo correo" name="useremail"
+                formControlName="email" required minlength="3" maxlenght="64" (keydown.space)="$event.preventDefault();">
+                <div class="valid-feedback">Correo valido.</div>
+                <div class="invalid-feedback">Por favor llene este campo.</div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+        <button type="button" class="btn btn-danger" [disabled]="!userForm.valid" (click)="modal.close('confirmar')">Ok</button>
+    </div>
+</ng-template>
+
+<ng-template #addmodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Agregar usuario</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="userForm" class="was-validated">
+            <div class="form-group">
+                <label for="uname">Username:</label>
+                <input type="text" class="form-control" id="uname" placeholder="Ingrese un nombre de usuario"
+                    name="uname" formControlName="userName" required minlength="2" maxlenght="64" (keydown.space)="$event.preventDefault();">
+                <div class="valid-feedback">Nombre de usuario valido</div>
+                <div class="invalid-feedback">Por favor llene esta campo.</div>
+            </div>
+            <div class="form-group">
+                <label for="useremail">Correo electrónico:</label>
+                <input type="email" class="form-control" id="usermail" placeholder="Ingrese un correo" name="useremail"
+                formControlName="email" minlength="3" required maxlenght="64" (keydown.space)="$event.preventDefault();">
+                <div class="valid-feedback">Correo valido.</div>
+                <div class="invalid-feedback">Por favor llene este campo.</div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+        <button type="button" class="btn btn-danger" [disabled]="!userForm.valid" (click)="modal.close('confirmar')">Ok</button>
+    </div>
+</ng-template>
+
+<div class="container">
+    <div class="card">
+        <h3 class="text-center"> Lista de Usuarios</h3>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <th>Id</th>
+                    <th> User Name</th>
+                    <th> Email </th>
+                    <th> Acciones </th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users">
+                        <td> {{ user.id}}</td>
+                        <td> {{ user.username}}</td>
+                        <td> {{ user.email}}</td>
+                        <td>
+                            <button type="button" class="btn btn-success mx-2"
+                                (click)="editUser(editmodal,user)">Editar</button>
+                            <button type="button" class="btn btn-danger mx-2"
+                                (click)="deleteUser(confirmacionmodal,user)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" (click)="openAdd(addmodal)">Agregar Ususuario</button>
+            </div>
+        </div>
+    </div>
+</div>
