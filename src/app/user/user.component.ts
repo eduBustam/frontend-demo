@@ -100,7 +100,7 @@ export class UserComponent implements OnInit {
     selUser.username=this.userForm.get('userName')?.value;
     selUser.email=this.userForm.get('email')?.value;
     
-    this.userService.postUser(selUser).subscribe(result=>{
+    this.userService.putUser(selUser).subscribe(result=>{
       console.log(result);
       this.getUsers;
     });
